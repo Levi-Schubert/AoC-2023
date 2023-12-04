@@ -20,22 +20,24 @@ fn main() -> Result<(), Box<dyn Error>>{
 }
 
 fn process_card_from_str(line: &str) -> i32 {
-    //remove double spaces on pass in
-    parse_card(&line.replace("  ", " ")).score()
+    parse_card(line).score()
 
 }
 
 fn parse_card(line: &str) -> Card {
+    //remove double spaces on pass in
+    let local_line = &line.replace("  ", " ");
+
     //get card id
-    let colon_index = line.chars().position(|c| c == ':').unwrap();
-    let game_id = line.substring(4, colon_index).trim().parse::<i32>().unwrap();
+    let colon_index = local_line.chars().position(|c| c == ':').unwrap();
+    let game_id = local_line.substring(4, colon_index).trim().parse::<i32>().unwrap();
     
     //get winning numbers
-    let pipe_index = line.chars().position(|c| c == '|').unwrap();
-    let winning_numbers: Vec<i32> = line.substring(colon_index + 2, pipe_index -1).split(" ").collect::<Vec<_>>().iter().map(|i| i.trim().parse::<i32>().unwrap()).collect();
+    let pipe_index = local_line.chars().position(|c| c == '|').unwrap();
+    let winning_numbers: Vec<i32> = local_line.substring(colon_index + 2, pipe_index -1).split(" ").collect::<Vec<_>>().iter().map(|i| i.trim().parse::<i32>().unwrap()).collect();
     
     //get scoring numbers
-    let scoring_numbers: Vec<i32> = line.substring(pipe_index + 2, line.len()).split(" ").collect::<Vec<_>>().iter().map(|i| i.trim().parse::<i32>().unwrap()).collect();
+    let scoring_numbers: Vec<i32> = local_line.substring(pipe_index + 2, local_line.len()).split(" ").collect::<Vec<_>>().iter().map(|i| i.trim().parse::<i32>().unwrap()).collect();
 
     //create and return card
     Card{
