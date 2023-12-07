@@ -7,6 +7,7 @@ fn main() -> Result<(), Box<dyn Error>>{
     let start_time = SystemTime::now();
     let mut answer = "";
     let input: String = fs::read_to_string("input/input.txt")?.parse()?;
+    let lines: Vec<_> = input.split("\r\n").collect();
     println!("{}", input);
 
 
